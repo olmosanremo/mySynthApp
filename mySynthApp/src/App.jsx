@@ -12,10 +12,7 @@ const App = () => {
   return (
     <div>
       {user ? (
-        <>
-          <h2>Willkommen, {user.email}</h2>
-          <Synthesizer user={user} />
-        </>
+        <Synthesizer user={user} />
       ) : (
         <>
           <Login onLogin={handleLogin} />
