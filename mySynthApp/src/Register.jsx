@@ -1,10 +1,10 @@
-// src/Login.jsx
+// src/Register.jsx
 
 import React, { useState } from 'react';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from './firebaseConfig';
 
-const Login = ({ onLogin, onNavigateToRegister }) => {
+const Register = ({ onRegister }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -14,16 +14,16 @@ const Login = ({ onLogin, onNavigateToRegister }) => {
     setError('');
 
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      onLogin(userCredential.user);
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      onRegister(userCredential.user);
     } catch (error) {
-      setError('Invalid credentials');
+      setError(error.message);
     }
   };
 
   return (
     <div>
-      <h2>Login</h2>
+      <h2>Register</h2>
       <form onSubmit={handleSubmit}>
         <div>
           <label>Email:</label>
@@ -44,13 +44,10 @@ const Login = ({ onLogin, onNavigateToRegister }) => {
           />
         </div>
         {error && <p style={{ color: 'red' }}>{error}</p>}
-        <button type="submit">Login</button>
+        <button type="submit">Register</button>
       </form>
-      <p>
-        Noch kein Konto? <button onClick={onNavigateToRegister}>Registrieren</button>
-      </p>
     </div>
   );
 };
 
-export default Login;
+export default Register;
